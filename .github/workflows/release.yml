@@ -260,26 +260,32 @@ jobs:
         name: ${{ env.PACKAGE_NAME }}
         path: ${{ env.PACKAGE_NAME }}.zip
 
-  release:
-    permissions:
-      contents: write  # for softprops/action-gh-release to create a release
-    needs: [setup, ios, ios-simulator]
-    runs-on: ubuntu-latest
-    steps:
-    - name: download
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
+release:
+  permissions:
+    contents: write  # for softprops/action-gh-release to create a release
+  needs: [setup, ios, ios-simulator]
+  runs-on: ubuntu-latest
+  steps:
+  - name: download
+    uses: actions/download-artifact@v4
+    with:
+      path: artifacts
 
-    - name: Prepare tag name
-      id: prep
-      run: echo "::set-output name=tag::${{ needs.setup.outputs.VERSION }}"
-      shell: bash
+  - name: Prepare tag name
+    id: prep
+    run: |
+      VERSION=${{ needs.setup.outputs.VERSION }}
+      CLEAN_VERSION=${VERSION#refs/tags/}
+      echo "tag=$CLEAN_VERSION" >> $GITHUB_ENV
+    shell: bash
 
-    - name: create-release
-      uses: softprops/action-gh-release@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: ${{ steps.prep.outputs.tag }}
+  - name: create-release
+    uses: softprops/action-gh-release@v2
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      tag_name: ${{ env.tag }}
+      name: Release ${{ env.tag }}
+      files: artifacts/*/*.zip
+
         name: Release ${{ steps.prep.outputs.tag }}
         files: artifacts/*/*.zip
