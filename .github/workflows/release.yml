@@ -286,6 +286,3 @@ release:
       tag_name: ${{ env.tag }}
       name: Release ${{ env.tag }}
       files: artifacts/*/*.zip
-
-        name: Release ${{ steps.prep.outputs.tag }}
-        files: artifacts/*/*.zip
