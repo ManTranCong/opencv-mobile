@@ -271,10 +271,15 @@ jobs:
       with:
         path: artifacts
 
+    - name: Prepare tag name
+      id: prep
+      run: echo "::set-output name=tag::${{ needs.setup.outputs.VERSION }}"
+      shell: bash
+
     - name: create-release
       uses: softprops/action-gh-release@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: ${{ needs.setup.outputs.VERSION }}
-        name: Release ${{ needs.setup.outputs.VERSION }}
+        tag_name: ${{ steps.prep.outputs.tag }}
+        name: Release ${{ steps.prep.outputs.tag }}
         files: artifacts/*/*.zip
