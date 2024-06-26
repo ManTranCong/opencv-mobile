@@ -26,7 +26,69 @@ jobs:
 
     - name: Build OpenCV for iOS and iOS Simulator
       run: |
-        python3 opencv/platforms/ios/build_framework.py ios --iphoneos_archs arm64 --iphonesimulator_archs x86_64
+        python3 opencv/platforms/ios/build_framework.py ios \
+          --iphoneos_archs arm64 \
+          --iphonesimulator_archs x86_64 \
+          --without apps \
+          --without java \
+          --without gapi \
+          --without objc \
+          --without js \
+          --without ts \
+          --without python2 \
+          --without python3 \
+          --without imgcodecs \
+          --without videoio \
+          --without objdetect \
+          --without stitching \
+          --without ml \
+          --disable AVFOUNDATION \
+          --disable CAP_IOS \
+          --disable CAROTENE \
+          --disable CPUFEATURES \
+          --disable EIGEN \
+          --disable FFMPEG \
+          --disable GSTREAMER \
+          --disable GTK \
+          --disable IPP \
+          --disable HALIDE \
+          --disable VULKAN \
+          --disable INF_ENGINE \
+          --disable NGRAPH \
+          --disable JASPER \
+          --disable OPENJPEG \
+          --disable JPEG \
+          --disable WEBP \
+          --disable OPENEXR \
+          --disable PNG \
+          --disable TIFF \
+          --disable OPENVX \
+          --disable GDCM \
+          --disable TBB \
+          --disable HPX \
+          --disable OPENMP \
+          --disable PTHREADS_PF \
+          --disable V4L \
+          --disable CLP \
+          --disable OPENCL \
+          --disable OPENCL_SVM \
+          --disable VA \
+          --disable VA_INTEL \
+          --disable ITT \
+          --disable PROTOBUF \
+          --disable IMGCODEC_HDR \
+          --disable IMGCODEC_SUNRASTER \
+          --disable IMGCODEC_PXM \
+          --disable IMGCODEC_PFM \
+          --disable QUIRC \
+          --disable ANDROID_MEDIANDK \
+          --disable TENGINE \
+          --disable ONNX \
+          --disable TIMVX \
+          --disable OBSENSOR \
+          --disable CANN \
+          --disable FLATBUFFERS
+          
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
